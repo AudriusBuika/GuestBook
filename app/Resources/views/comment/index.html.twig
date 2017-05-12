@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+
+
+    <h1 class="page-header">Guest book</h1>
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+
+    {% if comments|length != 0 %}
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Username</th>
+                <th>Comment</th>
+                {% if logged == 1 %}
+                <th>Action</th>
+                {% endif %}
+            </tr>
+            </thead>
+            <tbody>
+
+            {% for comment in comments %}
+                <tr>
+                    <td>{{ comment.username }}</td>
+                    <td>{{ comment.message }}</td>
+                    {% if logged == 1 %}
+                    <th scope="row"><a href="/delete/{{ comment.id }}">Delete</a> </th>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <div class="navigation text-center">
+            {{ knp_pagination_render(comments) }}
+        </div>
+    {% else %}
+        <h1>Not found records!</h1>
+    {% endif %}
+
+{% endblock %}
